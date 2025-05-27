@@ -4,32 +4,33 @@ steps:
     args:
       - 'compute'
       - 'ssh'
-      - 'vm-ti4k'  # Replace with the name of your Compute Engine VM instance
-      - '--zone=us-central1-c'  # Replace with the zone of your Compute Engine VM instance
-      - '--command=sudo apt-get update && sudo apt-get install -y mysql-server php-mysql && sudo systemctl restart apache2'
+      - 'vm-athiyan'  # Replace with the name of your Compute Engine VM instance
+      - '--zone=southeast2-a'  # Replace with the zone of your Compute Engine VM instance
+      - '--command=cd /var/www/html/contacts && git pull origin main'
 
   # Step 1: Deploy the application to Compute Engine VM
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'compute'
       - 'ssh'
-      - 'vm-ti4k'  # Replace with the name of your Compute Engine VM instance
-      - '--zone=us-central1-c'  # Replace with the zone of your Compute Engine VM instance
+      - 'vm-athiyan'  # Replace with the name of your Compute Engine VM instance
+      - '--zone=asia-southeast2-a'  # Replace with the zone of your Compute Engine VM instance
       - '--command=cd /var/www/html/contacts && git pull origin main'
-    dir: '/var/www/html/contacts'  # Specify the directory where your source code is cloned
+    dir: '/var/www/html/phpcontactbook'  # Specify the directory where your source code is cloned
 
   # Step 2: Database migration
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'compute'
       - 'ssh'
-      - 'vm-ti4k'  # Replace with the name of your Compute Engine VM instance
-      - '--zone=us-central1-c'  # Replace with the zone of your Compute Engine VM instance
-      - '--command=sudo mysql -u root < /var/www/html/contacts/data.sql'
-    dir: '/var/www/html/contacts'  # Specify the directory where your source code is cloned
+      - 'vm-athiyan'  # Replace with the name of your Compute Engine VM instance
+      - '--zone=asia-southeast2-a'  # Replace with the zone of your Compute Engine VM instance
+      - '--command=cd /var/www/html/contacts && git pull origin main'
+    dir: '/var/www/html/phpcontactbook'  # Specify the directory where your source code is cloned
 
 # Optionally, you can specify the timeout for the entire build process
 timeout: '1200s'
 
 # Where to put build log
+option:
 logging: CLOUD_LOGGING_ONLY
